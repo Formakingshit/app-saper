@@ -1,0 +1,93 @@
+.block {
+  pointer-events:none;
+}
+.face_unpressed {
+  width: 50px;
+  height: 50px;
+  background-image: url("./images/face_unpressed.svg");
+  background-size: 50px 50px;
+}
+
+.face_lose {
+  width: 50px;
+  height: 50px;
+  background-image: url("./images/face_lose.svg");
+  background-size: 50px 50px;
+}
+
+.face_win {
+  width: 50px;
+  height: 50px;
+  background-image: url("./images/face_win.svg");
+  background-size: 50px 50px;
+}
+
+button {
+  width: 50px;
+  height: 50px;
+}
+
+.flag {
+  background-image: url("images/flag.svg");
+  background-size: 50px 50px;
+}
+
+.mine {
+  background-image: url("images/mine.svg");
+  background-size: 50px 50px;
+}
+
+.mine_red {
+  background-image: url("images/mine_red.svg");
+  background-size: 50px 50px;
+}
+
+.mine_wrong {
+  background-image: url("images/mine_wrong.svg");
+  background-size: 50px 50px;
+}
+
+.one {
+  background-image: url("images/type1.svg");
+  background-size: 50px 50px;
+}
+
+.two {
+  background-image: url("images/type2.svg");
+  background-size: 50px 50px;
+}
+
+.three {
+  background-image: url("images/type3.svg");
+  background-size: 50px 50px;
+}
+
+.four {
+  background-image: url("images/type4.svg");
+  background-size: 50px 50px;
+}
+
+.five {
+  background-image: url("images/type5.svg");
+  background-size: 50px 50px;
+}
+
+.six {
+  background-image: url("images/type6.svg");
+  background-size: 50px 50px;
+}
+
+.seven {
+  background-image: url("images/type7.svg");
+  background-size: 50px 50px;
+}
+
+.eighth {
+  background-image: url("images/type8.svg");
+  background-size: 50px 50px;
+}
+
+.show {
+  background-color: grey;
+  pointer-events:none;
+}
