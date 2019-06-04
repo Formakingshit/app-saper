@@ -3,7 +3,9 @@
     <tr v-for="(rows, rowsIndex) in fields" :key="rowsIndex">
       <th v-for="(cells, cellIndex) in rows" :key="fields[rowsIndex][cellIndex].id">
         <app-cell
-          @click.native="sendCoordinat(cells)"
+          @click.native="sendCoordinat(cells.coordinats)"
+          @mousedown.native="mousedown"
+          @mouseup.native="mouseup"
           @click.right.native="flag(cells.cell)"
           :cell="fields[rowsIndex][cellIndex].cell"
           @contextmenu.native.prevent
@@ -28,6 +30,18 @@ export default {
     appCell: Cell
   },
   methods: {
+    mouseup() {
+      eventBus.$emit("changeFace", {
+        face_active: false,
+        face_unpressed: true
+      });
+    },
+    mousedown() {
+      eventBus.$emit("changeFace", {
+        face_active: true,
+        face_unpressed: false
+      });
+    },
     show(cell) {
       cell.show = true;
     },
@@ -47,10 +61,12 @@ export default {
         }
       }
     },
-    initField(rows, cols, mine) {
-      // this.face_unpressed = true;
-      // this.face_lose = false;
-      // this.face_win = false;
+    initField({ rows, cols, mine }) {
+      eventBus.$emit("changeFace", {
+        face_unpressed: true,
+        face_lose: false,
+        face_win: false
+      });
       this.block = false;
 
       this.fields = new Array();
@@ -83,9 +99,7 @@ export default {
       }
       this.makeMine(rows, cols, mine);
     },
-    sendCoordinat(cells) {
-      const xCoordinats = cells.coordinats.x;
-      const yCoordinats = cells.coordinats.y;
+    sendCoordinat({ x: xCoordinats, y: yCoordinats }) {
       const length = this.fields.length;
 
       if (this.fields[xCoordinats][yCoordinats].cell.mine) {
@@ -102,9 +116,12 @@ export default {
           }
         }
 
-        this.face_unpressed = false;
-        this.face_lose = true;
-        this.face_win = false;
+        eventBus.$emit("changeFace", {
+          face_unpressed: false,
+          face_lose: true,
+          face_win: false
+        });
+
         this.fields[xCoordinats][yCoordinats].cell.mine = false;
         this.fields[xCoordinats][yCoordinats].cell.mine_red = true;
         this.block = true;
@@ -134,15 +151,18 @@ export default {
         }
 
         if (countKnown == final) {
-          this.face_unpressed = false;
-          this.face_lose = false;
-          this.face_win = true;
+          eventBus.$emit("changeFace", {
+            face_unpressed: false,
+            face_lose: false,
+            face_win: true
+          });
         }
       }
     },
     setNumberNearClick(xCoordinats, yCoordinats) {
       const length = this.fields.length;
       let count = 0;
+
       for (let i = 1; i >= -1; i--) {
         for (let j = 1; j >= -1; j--) {
           if (!(i == 0 && j == 0)) {
@@ -235,9 +255,9 @@ export default {
     }
   },
   mounted() {
-    this.initField(10, 10, 10);
+    this.initField({ rows: 10, cols: 10, mine: 10 });
     eventBus.$on("initField", data => {
-      this.initField(data.rows, data.cols, data.mine);
+      this.initField(data);
     });
   }
 };
